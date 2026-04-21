@@ -1,0 +1,180 @@
+# [build-system]
+# requires = ["hatchling"]
+# build-backend = "hatchling.build"
+
+[project]
+name = "django-tagx"
+version = "0.1.0"
+description = "Street Art & Graffiti Map API"
+authors = [{name = "Dmytro Burdeniuk"}]
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "django>=6.0.4",
+    "djangorestframework>=3.17.1",
+]
+
+[dependency-groups]
+dev = [
+    "bandit>=1.9.4",
+    "django-stubs>=6.0.3",
+    "mypy>=1.20.1",
+    "pre-commit>=4.5.1",
+    "ruff>=0.15.11",
+]
+test = [
+    "model-bakery>=1.23.4",
+    "pytest>=9.0.3",
+    "pytest-cov>=7.1.0",
+    "pytest-django>=4.12.0",
+    "pytest-mock>=3.15.1",
+    "pytest-xdist>=3.8.0",
+]
+
+
+# =========================
+# RUFF (lint + format)
+# =========================
+[tool.ruff]
+fix = true  # auto-fix safe issues
+line-length = 88  
+target-version = "py312"
+unsafe-fixes = false
+
+exclude = [
+    ".git",  
+    ".venv",  
+    "__pycache__",  
+    "migrations",  
+    "staticfiles",  
+    "media",
+    "manage.py",
+    ".pytest_cache",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle (style errors)
+    "F",   # pyflakes (logical errors)
+    "I",   # import sorting
+    "UP",  # modern Python upgrades
+    "N",   # naming conventions
+    "B",   # bug risks (flake8-bugbear)
+    "C4",  # cleaner comprehensions
+    "RUF", # Ruff-specific rules
+    "SIM", # simplify code patterns
+]
+
+extend-select = [
+    "DJ",   # Django rules
+    "T20",  # no print()
+]
+
+extend-ignore = [
+    "E501",  # line length handled by formatter
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint.isort]
+known-first-party = ["apps"]
+section-order = [
+    "future", 
+    "standard-library", 
+    "third-party", 
+    "first-party", 
+    "local-folder"
+]
+combine-as-imports = true  # merge related imports
+split-on-trailing-comma = true  # stable formatting
+force-sort-within-sections = true  # consistent import ordering
+
+
+# =========================
+# PYTEST
+# =========================
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"  
+
+testpaths = ["apps"]
+
+python_files = ["test_*.py"]  
+python_classes = ["Test*"]     
+python_functions = ["test_*"]   
+
+addopts = [
+    "--reuse-db",         # speed up tests by reusing DB
+    "-n", "auto",         # run tests in parallel (pytest-xdist)
+    "--disable-warnings", # hide third-party warning noise
+    "--strict-markers",   # fail on unknown pytest markers
+    "--color=yes",        # colored output in terminal
+]
+
+markers = [
+    "unit: fast isolated tests",
+    "integration: DB/API tests",
+    "slow: slow tests",
+]
+
+filterwarnings = [
+    "ignore:pythonjsonlogger.jsonlogger has been moved:DeprecationWarning",  # legacy logging lib warning
+    "ignore:SwaggerJSONRenderer:DeprecationWarning",  # drf-yasg legacy warning
+    "ignore:The HMAC key is:Warning",  # PyJWT test warning
+]
+
+
+# =========================
+# COVERAGE
+# =========================
+[tool.coverage.run]
+source = ["apps"]
+branch = true  # track branch coverage (if/else paths)
+
+omit = [ # exclude files
+    "*/tests/*",       
+    "*/migrations/*",  
+    "*/__init__.py",
+    "*/venv/*",
+    "manage.py",
+    "*/settings/*",
+]
+
+[tool.coverage.report]
+show_missing = true  # show uncovered lines in terminal
+precision = 2        # round coverage percentage
+
+
+# =========================
+# BANDIT
+# =========================
+[tool.bandit]
+exclude_dirs = [
+    "tests", 
+    "migrations", 
+    ".venv", 
+    "staticfiles", 
+    "media",
+]
+
+
+# =========================
+# MYPY + DJANGO-STUBS
+# =========================
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+python_version = "3.12"
+
+strict = false #CHANGE: true - for production 
+
+exclude = [
+    "migrations/",
+    ".venv/",
+    "staticfiles/",
+    "media/",
+]
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
