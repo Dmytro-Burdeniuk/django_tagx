@@ -1,2 +1,2 @@
-# django_tagx
-Backend REST API for a street art &amp; graffiti map app
+# django-template
+Production ready Django template for creating backend projects

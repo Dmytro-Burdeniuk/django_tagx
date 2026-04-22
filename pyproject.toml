@@ -1,180 +1,162 @@
-# [build-system]
-# requires = ["hatchling"]
-# build-backend = "hatchling.build"
-
 [project]
-name = "django-tagx"
+name = "django-template"
 version = "0.1.0"
-description = "Street Art & Graffiti Map API"
-authors = [{name = "Dmytro Burdeniuk"}]
+description = "Production-ready Django starter template"
 readme = "README.md"
+authors = [ { name = "Dmytro Burdeniuk" } ]
 requires-python = ">=3.12"
-
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
 dependencies = [
-    "django>=6.0.4",
-    "djangorestframework>=3.17.1",
+  "django>=6.0.4",
+  "djangorestframework>=3.17.1",
 ]
 
 [dependency-groups]
 dev = [
-    "bandit>=1.9.4",
-    "django-stubs>=6.0.3",
-    "mypy>=1.20.1",
-    "pre-commit>=4.5.1",
-    "ruff>=0.15.11",
+  "bandit>=1.9.4",
+  "django-stubs>=6.0.3",
+  "mypy>=1.20.1",
+  "pre-commit>=4.5.1",
+  "pyright>=1.1.408",
+  "ruff>=0.15.11",
 ]
 test = [
-    "model-bakery>=1.23.4",
-    "pytest>=9.0.3",
-    "pytest-cov>=7.1.0",
-    "pytest-django>=4.12.0",
-    "pytest-mock>=3.15.1",
-    "pytest-xdist>=3.8.0",
+  "model-bakery>=1.23.4",
+  "pytest>=9.0.3",
+  "pytest-cov>=7.1",
+  "pytest-django>=4.12",
+  "pytest-mock>=3.15.1",
+  "pytest-xdist>=3.8",
 ]
-
 
 # =========================
 # RUFF (lint + format)
 # =========================
 [tool.ruff]
-fix = true  # auto-fix safe issues
-line-length = 88  
 target-version = "py312"
-unsafe-fixes = false
-
+line-length = 88
 exclude = [
-    ".git",  
-    ".venv",  
-    "__pycache__",  
-    "migrations",  
-    "staticfiles",  
-    "media",
-    "manage.py",
-    ".pytest_cache",
+  ".git",
+  ".pytest_cache",
+  ".venv",
+  "__pycache__",
+  "manage.py",
+  "media",
+  "migrations",
+  "staticfiles",
 ]
-
-[tool.ruff.lint]
-select = [
-    "E",   # pycodestyle (style errors)
-    "F",   # pyflakes (logical errors)
-    "I",   # import sorting
-    "UP",  # modern Python upgrades
-    "N",   # naming conventions
-    "B",   # bug risks (flake8-bugbear)
-    "C4",  # cleaner comprehensions
-    "RUF", # Ruff-specific rules
-    "SIM", # simplify code patterns
+fix = true  # auto-fix safe issues
+unsafe-fixes = false
+format.indent-style = "space"
+format.quote-style = "double"
+lint.select = [
+  "B",   # bug risks (flake8-bugbear)
+  "C4",  # cleaner comprehensions
+  "E",   # pycodestyle (style errors)
+  "F",   # pyflakes (logical errors)
+  "I",   # import sorting
+  "N",   # naming conventions
+  "RUF", # Ruff-specific rules
+  "SIM", # simplify code patterns
+  "UP",  # modern Python upgrades
 ]
-
-extend-select = [
-    "DJ",   # Django rules
-    "T20",  # no print()
+lint.extend-select = [
+  "DJ",  # Django rules
+  "T20", # no print()
 ]
-
-extend-ignore = [
-    "E501",  # line length handled by formatter
+lint.extend-ignore = [
+  "E501", # line length handled by formatter
 ]
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-
-[tool.ruff.lint.isort]
-known-first-party = ["apps"]
-section-order = [
-    "future", 
-    "standard-library", 
-    "third-party", 
-    "first-party", 
-    "local-folder"
-]
-combine-as-imports = true  # merge related imports
-split-on-trailing-comma = true  # stable formatting
-force-sort-within-sections = true  # consistent import ordering
-
-
-# =========================
-# PYTEST
-# =========================
-[tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "config.settings"  
-
-testpaths = ["apps"]
-
-python_files = ["test_*.py"]  
-python_classes = ["Test*"]     
-python_functions = ["test_*"]   
-
-addopts = [
-    "--reuse-db",         # speed up tests by reusing DB
-    "-n", "auto",         # run tests in parallel (pytest-xdist)
-    "--disable-warnings", # hide third-party warning noise
-    "--strict-markers",   # fail on unknown pytest markers
-    "--color=yes",        # colored output in terminal
-]
-
-markers = [
-    "unit: fast isolated tests",
-    "integration: DB/API tests",
-    "slow: slow tests",
-]
-
-filterwarnings = [
-    "ignore:pythonjsonlogger.jsonlogger has been moved:DeprecationWarning",  # legacy logging lib warning
-    "ignore:SwaggerJSONRenderer:DeprecationWarning",  # drf-yasg legacy warning
-    "ignore:The HMAC key is:Warning",  # PyJWT test warning
-]
-
-
-# =========================
-# COVERAGE
-# =========================
-[tool.coverage.run]
-source = ["apps"]
-branch = true  # track branch coverage (if/else paths)
-
-omit = [ # exclude files
-    "*/tests/*",       
-    "*/migrations/*",  
-    "*/__init__.py",
-    "*/venv/*",
-    "manage.py",
-    "*/settings/*",
-]
-
-[tool.coverage.report]
-show_missing = true  # show uncovered lines in terminal
-precision = 2        # round coverage percentage
-
+lint.isort.combine-as-imports = true  # merge related imports
+lint.isort.force-sort-within-sections = true  # consistent import ordering
+lint.isort.known-first-party = [ "apps" ]
+lint.isort.section-order = [ "future", "standard-library", "third-party", "first-party", "local-folder" ]
+lint.isort.split-on-trailing-comma = true  # stable formatting
 
 # =========================
 # BANDIT
 # =========================
 [tool.bandit]
 exclude_dirs = [
-    "tests", 
-    "migrations", 
-    ".venv", 
-    "staticfiles", 
-    "media",
+  "tests",
+  "migrations",
+  ".venv",
+  "staticfiles",
+  "media",
 ]
-
 
 # =========================
 # MYPY + DJANGO-STUBS
 # =========================
 [tool.mypy]
-plugins = ["mypy_django_plugin.main"]
+plugins = [ "mypy_django_plugin.main" ]
 python_version = "3.12"
-
-strict = false #CHANGE: true - for production 
-
+strict = false  # CHANGE: true - for production
 exclude = [
-    "migrations/",
-    ".venv/",
-    "staticfiles/",
-    "media/",
+  "migrations/",
+  ".venv/",
+  "staticfiles/",
+  "media/",
 ]
-
 [tool.django-stubs]
 django_settings_module = "config.settings"
+
+# =========================
+# PYRIGHT
+# =========================
+[tool.pyright]
+exclude = [ ".venv" ]
+pythonVersion = "3.12"
+venvPath = "."
+venv = ".venv"
+
+# =========================
+# PYTEST
+# =========================
+[tool.pytest]
+ini_options.DJANGO_SETTINGS_MODULE = "config.settings"
+ini_options.testpaths = [ "apps" ]
+ini_options.python_files = [ "test_*.py" ]
+ini_options.python_classes = [ "Test*" ]
+ini_options.python_functions = [ "test_*" ]
+ini_options.addopts = [
+  "--reuse-db",         # speed up tests by reusing DB
+  "-n",
+  "auto",               # run tests in parallel (pytest-xdist)
+  "--disable-warnings", # hide third-party warning noise
+  "--strict-markers",   # fail on unknown pytest markers
+  "--color=yes",        # colored output in terminal
+]
+ini_options.markers = [
+  "unit: fast isolated tests",
+  "integration: DB/API tests",
+  "slow: slow tests",
+]
+ini_options.filterwarnings = [
+  "ignore:pythonjsonlogger.jsonlogger has been moved:DeprecationWarning", # legacy logging lib warning
+  "ignore:SwaggerJSONRenderer:DeprecationWarning",                        # drf-yasg legacy warning
+  "ignore:The HMAC key is:Warning",                                       # PyJWT test warning
+]
+
+# =========================
+# COVERAGE
+# =========================
+[tool.coverage]
+run.branch = true  # track branch coverage (if/else paths)
+run.omit = [
+  "*/__init__.py",
+  "*/migrations/*",
+  "*/settings/*",
+  # exclude files
+  "*/tests/*",
+  "*/venv/*",
+  "manage.py",
+]
+run.source = [ "apps" ]
+report.precision = 2  # round coverage percentage
+report.show_missing = true  # show uncovered lines in terminal
