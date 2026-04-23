@@ -44,31 +44,31 @@ install:
 
 # ============ DOCKER ============
 up:
-    docker-compose -f docker-compose.local.yml up
+    docker compose -f docker-compose.local.yml up
 
 down:
-    docker-compose -f docker-compose.local.yml down -v --remove-orphans
+    docker compose -f docker-compose.local.yml down -v --remove-orphans
     @echo "✅ Local stack stopped and cleaned"
 
 # ============ DJANGO ============
 migrate:
-    docker-compose -f docker-compose.local.yml exec django uv run python manage.py migrate
+    docker compose -f docker-compose.local.yml exec django uv run python manage.py migrate
 
 shell:
-    docker-compose -f docker-compose.local.yml exec django uv run python manage.py shell
+    docker compose -f docker-compose.local.yml exec django uv run python manage.py shell
 
 makemigrations:
-    docker-compose -f docker-compose.local.yml exec django uv run python manage.py makemigrations
+    docker compose -f docker-compose.local.yml exec django uv run python manage.py makemigrations
 
 superuser:
-    docker-compose -f docker-compose.local.yml exec django uv run python manage.py createsuperuser
+    docker compose -f docker-compose.local.yml exec django uv run python manage.py createsuperuser
 
 # ============ TESTING & QUALITY ============
 test:
-    docker-compose -f docker-compose.local.yml exec django uv run pytest
+    docker compose -f docker-compose.local.yml exec django uv run pytest
 
 test-cov:
-    docker-compose -f docker-compose.local.yml exec django uv run pytest --cov={{TARGET}} --cov-report=html --cov-report=term-missing
+    docker compose -f docker-compose.local.yml exec django uv run pytest --cov={{TARGET}} --cov-report=html --cov-report=term-missing
     @echo "✅ Coverage: htmlcov/index.html"
 
 check:
