@@ -1,16 +1,16 @@
 import os
+
 from config.env import BASE_DIR, env
 
-env.read_env(os.path.join(BASE_DIR, '.env'))
+env.read_env(os.path.join(BASE_DIR, ".env"))
 
-SECRET_KEY = env.str('SECRET_KEY')
+SECRET_KEY = env.str("SECRET_KEY")
 
 DEBUG = env.bool("DJANGO_DEBUG", default=True)
 
 ALLOWED_HOSTS = ["*"]
 
 INTERNAL_IPS = [
-    "0.0.0.0",
     "127.0.0.1",
 ]
 

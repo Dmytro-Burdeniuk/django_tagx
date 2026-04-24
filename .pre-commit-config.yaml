@@ -21,7 +21,7 @@ repos:
       - id: check-case-conflict
       - id: check-docstring-first
       - id: detect-private-key
-      
+
   # django-upgrade - updates Django syntax to 6.0+
   - repo: https://github.com/adamchainz/django-upgrade
     rev: '1.30.0'
@@ -47,7 +47,7 @@ repos:
       # Formatter
       - id: ruff-format
 
-  # pyright - fast type checking 
+  # pyright - fast type checking
   - repo: https://github.com/RobertCraigie/pyright-python
     rev: v1.1.408
     hooks:
@@ -61,4 +61,3 @@ repos:
         args: [-c, pyproject.toml]
         additional_dependencies: ["bandit[toml]"]
         exclude: ^tests/
-
