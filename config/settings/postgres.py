@@ -9,7 +9,7 @@ DATABASES = {
         "PASSWORD": env.str("POSTGRES_PASSWORD"),
         "HOST": env.str("POSTGRES_HOST", default="localhost"),
         "PORT": env.str("POSTGRES_PORT", default="5432"),
-        # wraps every HTTP request in a transaction; rolls back on exception
+        # wraps every HTTP request in a transaction;  rolls back on exception
         "ATOMIC_REQUESTS": True,
         # reuse DB connections for N seconds instead of opening a new one per request
         "CONN_MAX_AGE": env.int("POSTGRES_CONN_MAX_AGE", default=60),

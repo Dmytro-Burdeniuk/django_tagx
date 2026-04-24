@@ -3,12 +3,20 @@ from config.env import BASE_DIR, env
 
 env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
 SECRET_KEY = env.str('SECRET_KEY')
 
 DEBUG = env.bool("DJANGO_DEBUG", default=True)
 
 ALLOWED_HOSTS = ["*"]
+
+INTERNAL_IPS = [
+    "0.0.0.0",
+    "127.0.0.1",
+]
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": "config.debug.show_toolbar",
+}
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -17,11 +25,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    #3rd party libs
-    'rest_framework',
+    # django libraries
+    "rest_framework",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -75,5 +85,5 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-# PostgreSQL Config 
+# Postgres Config
 from config.settings.postgres import *  # noqa
