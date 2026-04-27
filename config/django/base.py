@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # django libraries
     "rest_framework",
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "debug_toolbar",
 ]
 
@@ -85,5 +87,14 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
 # Postgres Config
 from config.settings.postgres import *  # noqa
+
+# JWT Config
+from config.settings.jwt import *  # noqa
