@@ -17,6 +17,7 @@ dependencies = [
   "django-environ>=0.13.0",
   "django-filter>=25.2",
   "djangorestframework>=3.17.1",
+  "djangorestframework-stubs>=3.16.9",
   "psycopg[binary]>=3.3.3",
 ]
 
