@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     # local apps
     "apps.users",
+    "apps.authentication",
 ]
 
 AUTH_USER_MODEL = "users.User"

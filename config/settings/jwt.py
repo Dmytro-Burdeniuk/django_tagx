@@ -41,8 +41,6 @@ SIMPLE_JWT = {
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
     # stores token type (access/refresh) in payload to prevent token confusion
     "TOKEN_TYPE_CLAIM": "token_type",
-    # stateless user object backed by token — no DB query needed
-    "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
 
     # iss claim — identifies which service issued the token
     "ISSUER": env.str("JWT_ISSUER", default="django-template"),
