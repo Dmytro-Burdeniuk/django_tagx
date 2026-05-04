@@ -19,6 +19,19 @@ class PhotoSerializer(serializers.ModelSerializer):
         fields = ['id', 'image', 'uploaded_at']
         read_only_fields = ['id', 'uploaded_at']
 
+    def validate_image(self, value):
+        # Verify file type
+        allowed_types = ['image/jpeg', 'image/png', 'image/webp']
+        if value.content_type not in allowed_types:
+            raise serializers.ValidationError("Only JPEG, PNG, and WebP images are allowed")
+
+        # Verify file size (max 5MB)
+        max_size = 5 * 1024 * 1024
+        if value.size > max_size:
+            raise serializers.ValidationError("Image size must not exceed 5MB")
+
+        return value
+
 
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -77,6 +90,28 @@ class GraffitiCreateUpdateSerializer(serializers.ModelSerializer):
         model = Graffiti
         fields = ['id', 'title', 'description', 'latitude', 'longitude', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def validate_title(self, value):
+        if len(value) < 3:
+            raise serializers.ValidationError("Title must be at least 3 characters long")
+        if len(value) > 255:
+            raise serializers.ValidationError("Title must not exceed 255 characters")
+        return value
+
+    def validate_description(self, value):
+        if len(value) < 10:
+            raise serializers.ValidationError("Description must be at least 10 characters long")
+        return value
+
+    def validate_latitude(self, value):
+        if not (-90 <= value <= 90):
+            raise serializers.ValidationError("Latitude must be between -90 and 90")
+        return value
+
+    def validate_longitude(self, value):
+        if not (-180 <= value <= 180):
+            raise serializers.ValidationError("Longitude must be between -180 and 180")
+        return value
 
     def create(self, validated_data):
         latitude = validated_data.pop('latitude')
