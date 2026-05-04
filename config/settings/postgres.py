@@ -2,8 +2,8 @@ from config.env import env
 
 DATABASES = {
     "default": {
-        # config for postgresql
-        "ENGINE": "django.db.backends.postgresql",
+        # config for postgresql with postgis
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": env.str("POSTGRES_DB"),
         "USER": env.str("POSTGRES_USER"),
         "PASSWORD": env.str("POSTGRES_PASSWORD"),
