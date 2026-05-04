@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "drf_spectacular",
     "debug_toolbar",
     "storages",
     # local apps
@@ -102,6 +103,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "EXCEPTION_HANDLER": "core.exception_handler.custom_exception_handler",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # Postgres Config
@@ -135,3 +137,14 @@ else:
     # Local file storage
     MEDIA_URL = "/media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# ===========================
+# SPECTACULAR (API DOCUMENTATION)
+# ===========================
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Graffiti Map API',
+    'DESCRIPTION': 'MVP API for graffiti mapping and voting',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SCHEMA_PATH_PREFIX': '/api/',
+}
