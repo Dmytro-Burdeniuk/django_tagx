@@ -8,6 +8,7 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path("admin/", admin.site.urls),
     path("api/", include("rest_framework.urls")),
     path("api/auth/", include("apps.authentication.urls")),
+    path("api/", include("apps.graffiti.urls")),
 ]
 
 if base.DEBUG:
